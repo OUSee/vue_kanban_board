@@ -1,0 +1,24 @@
+*{
+    box-sizing: border-box;
+    font: default;
+    cursor: default;
+}
+
+body{
+    margin: 0;
+    
+}
+
+button{
+    border: 0;
+    margin: 0;
+    background-color: transparent;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Cascadia node;
+    font-size: 16px;
+}
+
+button:active{
+    background-color: white;
+}
