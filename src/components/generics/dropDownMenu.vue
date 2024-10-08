@@ -30,10 +30,6 @@ const getTasksList = () => {
     }
 }
 
-const abortChoice = () => {
-    TaskList.value = []
-}
-
 onMounted(() => {
     getTasksList()
 })
