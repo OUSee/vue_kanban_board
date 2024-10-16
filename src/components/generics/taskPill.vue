@@ -19,7 +19,7 @@ const handleDelete = () => {
 
 <template>
     <div class='task-container'>
-        <RouterLink class="link" :to=path>
+        <RouterLink class="link" :to=path draggable="false">
             {{ task.name }} {{ $route.params.taskId }}
         </RouterLink>
         <button @click="handleDelete" class="del-btn">

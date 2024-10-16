@@ -45,9 +45,21 @@ function moveTask(task: Task, type: TaskType) {
     if (type == TaskType.resolved) {
         store.count.done++;
     }
-    console.log(updated)
     store.updateTask(updated)
     editMode.value = false
+}
+
+const handleDrop = (event: DragEvent) => {
+    const ID = event.dataTransfer!.getData("text");
+    if (ID) {
+        const task: Task = store.tasks.find((task: Task) => task.taskId == parseInt(ID!));
+        moveTask(task, boardType)
+    }
+}
+
+const dragHandler = (event: DragEvent) => {
+    if (event.dataTransfer != null && event.target) { event.dataTransfer.setData("text", (event.target as HTMLElement).id); };
+
 }
 
 const handleChange = () => {
@@ -59,12 +71,13 @@ const changeEditMode = () => { editMode.value = false; }
 </script>
 
 <template>
-    <div class='board-container'>
+    <div class='board-container droppable' :id="boardType" @dragover.prevent @drop.prevent="handleDrop">
         <h2 class="boardTitle">{{ boardType.toUpperCase() }}</h2>
         <ul class='task-list'>
             <taskPill
                 v-for="task in (store.tasks.filter((task: Task) => { if (task.taskType == boardType as TaskType) return task }))"
-                :key="task.taskId" :task="task" @handle-delete="deleteTask" />
+                :key="task.taskId" class="draggable" :id="task.taskId" :task="task" @handle-delete="deleteTask"
+                @dragstart="dragHandler" draggable="true" />
         </ul>
         <form v-if="editMode && boardType == TaskType.unresolved" @submit.prevent="addTask" class="input-form">
             <input autofocus @change="handleChange" type="text" name="taskName" id="taskName" class="task-input"
@@ -146,5 +159,9 @@ const changeEditMode = () => { editMode.value = false; }
 .add_task:hover {
     cursor: pointer;
     color: rgba(255, 255, 255, 1);
+}
+
+.draggable:active {
+    opacity: 0;
 }
 </style>
